@@ -69,7 +69,7 @@ func Succ(n *Node) *Node {
 	return succ
 }
 
-func Insert(t *Tree, v *Node) {
+func (t *Tree) Insert(v *Node) {
 	var tmp *Node
 	curr := t.Root
 	for curr != nil {
