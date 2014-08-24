@@ -95,13 +95,22 @@ func (t *Tree) Insert(v *Node) {
 }
 
 func (t *Tree) Search(v int) *Node {
-	return t.Root.Search(v)
+	if t.Root != nil {
+		return t.Root.Search(v)
+	}
+	return nil
 }
 
 func (t *Tree) Min() *Node {
-	return t.Root.Min()
+	if t.Root != nil {
+		return t.Root.Min()
+	}
+	return nil
 }
 
 func (t *Tree) Max() *Node {
-	return t.Root.Max()
+	if t.Root != nil {
+		return t.Root.Max()
+	}
+	return nil
 }

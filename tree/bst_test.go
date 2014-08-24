@@ -30,10 +30,14 @@ func TestInsert(t *testing.T) {
 
 func TestSearch(t *testing.T) {
 	tr := new(Tree)
+	n := tr.Search(100)
+	if n != nil {
+		t.Fatal("Searching an empty tree should return nil")
+	}
 	tr.Insert(&Node{Value: 5})
 	tr.Insert(&Node{Value: 3})
 	tr.Insert(&Node{Value: 10})
-	n := tr.Search(5)
+	n = tr.Search(5)
 	if n.Value != 5 {
 		t.Fatalf("Expected Value=%v, got Value=%v\n", 5, n.Value)
 	}
@@ -49,12 +53,16 @@ func TestSearch(t *testing.T) {
 
 func TestMax(t *testing.T) {
 	tr := new(Tree)
+	n := tr.Max()
+	if n != nil {
+		t.Fatal("Max of empty tree should be nil!")
+	}
 	tr.Insert(&Node{Value: 5})
 	tr.Insert(&Node{Value: 10})
 	tr.Insert(&Node{Value: 1})
 	tr.Insert(&Node{Value: 11})
 	tr.Insert(&Node{Value: 3})
-	n := tr.Max()
+	n = tr.Max()
 	if n.Value != 11 {
 		t.Fatalf("Expected Value=%v, got Value=%v\n", 11, n.Value)
 	}
@@ -62,12 +70,16 @@ func TestMax(t *testing.T) {
 
 func TestMin(t *testing.T) {
 	tr := new(Tree)
+	n := tr.Min()
+	if n != nil {
+		t.Fatal("Min of empty tree should be nil!")
+	}
 	tr.Insert(&Node{Value: 5})
 	tr.Insert(&Node{Value: 10})
 	tr.Insert(&Node{Value: 1})
 	tr.Insert(&Node{Value: 11})
 	tr.Insert(&Node{Value: 3})
-	n := tr.Min()
+	n = tr.Min()
 	if n.Value != 1 {
 		t.Fatalf("Expected Value=%v, got Value=%v\n", 1, n.Value)
 	}
