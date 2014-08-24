@@ -106,6 +106,21 @@ func (t *Tree) Insert(v *Node) {
 	}
 }
 
+// Transplant replaces one subtree as a child of its parent with another subtree
+func (t *Tree) Transplant(original, replacement *Node) {
+	if original.Parent == nil { // Root of the tree
+		t.Root = replacement
+	} else if original == original.Parent.Left { // Left child
+		original.Parent.Left = replacement
+	} else { // Right child
+		original.Parent.Right = replacement
+	}
+	// Don't forget to update the parent node
+	if replacement != nil {
+		replacement.Parent = original.Parent
+	}
+}
+
 func (t *Tree) Search(v int) *Node {
 	if t.Root != nil {
 		return t.Root.Search(v)
