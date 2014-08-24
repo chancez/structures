@@ -66,11 +66,23 @@ func (n *Node) Succ() *Node {
 		return n.Right.Min()
 	}
 	succ := n.Parent
-	for succ != nil && succ == n.Right {
+	for succ != nil && n == succ.Right {
 		n = succ
 		succ = succ.Parent
 	}
 	return succ
+}
+
+func (n *Node) Pred() *Node {
+	if n.Left != nil {
+		return n.Left.Max()
+	}
+	pred := n.Parent
+	for pred != nil && n == pred.Left {
+		n = pred
+		pred = pred.Parent
+	}
+	return pred
 }
 
 func (t *Tree) Insert(v *Node) {

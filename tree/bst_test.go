@@ -84,3 +84,37 @@ func TestMin(t *testing.T) {
 		t.Fatalf("Expected Value=%v, got Value=%v\n", 1, n.Value)
 	}
 }
+
+func TestNodeSucc(t *testing.T) {
+	tr := new(Tree)
+	tr.Insert(&Node{Value: 10})
+	tr.Insert(&Node{Value: 5})
+	n := &Node{Value: 8}
+	tr.Insert(n)
+	succ := n.Succ()
+	if succ.Value != 10 {
+		t.Fatalf("Expected Succ=%v, got Succ=%v\n", 10, succ.Value)
+	}
+	tr.Insert(&Node{Value: 9})
+	succ = n.Succ()
+	if succ.Value != 9 {
+		t.Fatalf("Expected Succ=%v, got Succ=%v\n", 9, succ.Value)
+	}
+}
+
+func TestNodePred(t *testing.T) {
+	tr := new(Tree)
+	tr.Insert(&Node{Value: 10})
+	tr.Insert(&Node{Value: 5})
+	n := &Node{Value: 7}
+	tr.Insert(n)
+	pred := n.Pred()
+	if pred.Value != 5 {
+		t.Fatalf("Expected Pred=%v, got Pred=%v\n", 5, pred.Value)
+	}
+	tr.Insert(&Node{Value: 6})
+	pred = n.Pred()
+	if pred.Value != 6 {
+		t.Fatalf("Expected Pred=%v, got Pred=%v\n", 6, pred.Value)
+	}
+}
