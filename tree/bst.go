@@ -1,4 +1,4 @@
-package bst
+package tree
 
 import (
 	"fmt"
@@ -22,44 +22,48 @@ func InOrderWalk(n *Node) {
 	InOrderWalk(n.Right)
 }
 
-func Search(n *Node, v int) *Node {
-	if n == nil || v == n.Value {
+func (n *Node) Search(v int) *Node {
+	if v == n.Value {
 		return n
 	}
-	if v < n.Value {
-		return Search(n.Left, v)
+	if n.Left != nil && v < n.Value {
+		return n.Left.Search(v)
 	}
-	return Search(n.Right, v)
+	if n.Right != nil {
+		return n.Right.Search(v)
+	}
+	return nil
 }
 
-func SearchIter(n *Node, v int) *Node {
-	for n != nil && v != n.Value {
-		if v < n.Value {
-			n = n.Left
+func (n *Node) SearchIter(v int) *Node {
+	curr := n
+	for curr != nil && v != curr.Value {
+		if v < curr.Value {
+			curr = curr.Left
 		} else {
-			n = n.Right
+			curr = curr.Right
 		}
 	}
-	return n
+	return curr
 }
 
-func Min(n *Node) *Node {
+func (n *Node) Min() *Node {
 	for n.Left != nil {
 		n = n.Left
 	}
 	return n
 }
 
-func Max(n *Node) *Node {
+func (n *Node) Max() *Node {
 	for n.Right != nil {
 		n = n.Right
 	}
 	return n
 }
 
-func Succ(n *Node) *Node {
+func (n *Node) Succ() *Node {
 	if n.Right != nil {
-		return Min(n.Right)
+		return n.Right.Min()
 	}
 	succ := n.Parent
 	for succ != nil && succ == n.Right {
@@ -88,4 +92,8 @@ func (t *Tree) Insert(v *Node) {
 	} else {
 		tmp.Right = v
 	}
+}
+
+func (t *Tree) Search(v int) *Node {
+	return t.Root.Search(v)
 }

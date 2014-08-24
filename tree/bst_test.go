@@ -1,4 +1,4 @@
-package bst
+package tree
 
 import (
 	"testing"
@@ -25,5 +25,24 @@ func TestInsert(t *testing.T) {
 	tr.Insert(n4)
 	if tr.Root.Left != n4 {
 		t.Fatalf("Expected tr.Root=%v, got tr.Root=%v\n", n4, tr.Root.Left)
+	}
+}
+
+func TestSearch(t *testing.T) {
+	tr := new(Tree)
+	tr.Insert(&Node{Value: 5})
+	tr.Insert(&Node{Value: 3})
+	tr.Insert(&Node{Value: 10})
+	n := tr.Search(5)
+	if n.Value != 5 {
+		t.Fatalf("Expected Value=%v, got Value=%v\n", 5, n.Value)
+	}
+	n = tr.Search(10)
+	if n.Value != 10 {
+		t.Fatalf("Expected Value=%v, got Value=%v\n", 10, n.Value)
+	}
+	n = tr.Search(1000)
+	if n != nil {
+		t.Fatalf("Expected Node=%v, got Node=%v\n", nil, n)
 	}
 }
