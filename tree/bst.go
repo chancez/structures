@@ -97,3 +97,11 @@ func (t *Tree) Insert(v *Node) {
 func (t *Tree) Search(v int) *Node {
 	return t.Root.Search(v)
 }
+
+func (t *Tree) Min() *Node {
+	return t.Root.Min()
+}
+
+func (t *Tree) Max() *Node {
+	return t.Root.Max()
+}

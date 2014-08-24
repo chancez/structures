@@ -46,3 +46,29 @@ func TestSearch(t *testing.T) {
 		t.Fatalf("Expected Node=%v, got Node=%v\n", nil, n)
 	}
 }
+
+func TestMax(t *testing.T) {
+	tr := new(Tree)
+	tr.Insert(&Node{Value: 5})
+	tr.Insert(&Node{Value: 10})
+	tr.Insert(&Node{Value: 1})
+	tr.Insert(&Node{Value: 11})
+	tr.Insert(&Node{Value: 3})
+	n := tr.Max()
+	if n.Value != 11 {
+		t.Fatalf("Expected Value=%v, got Value=%v\n", 11, n.Value)
+	}
+}
+
+func TestMin(t *testing.T) {
+	tr := new(Tree)
+	tr.Insert(&Node{Value: 5})
+	tr.Insert(&Node{Value: 10})
+	tr.Insert(&Node{Value: 1})
+	tr.Insert(&Node{Value: 11})
+	tr.Insert(&Node{Value: 3})
+	n := tr.Min()
+	if n.Value != 1 {
+		t.Fatalf("Expected Value=%v, got Value=%v\n", 1, n.Value)
+	}
+}
