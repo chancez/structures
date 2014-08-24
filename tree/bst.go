@@ -106,6 +106,24 @@ func (t *Tree) Insert(v *Node) {
 	}
 }
 
+func (t *Tree) Delete(n *Node) {
+	if n.Left == nil {
+		t.Transplant(n, n.Right)
+	} else if n.Right == nil {
+		t.Transplant(n, n.Left)
+	} else {
+		min := n.Right.Min()
+		if min.Parent != n {
+			t.Transplant(min, min.Right)
+			min.Right = n.Right
+			min.Right.Parent = min
+		}
+		t.Transplant(n, min)
+		n.Left = min.Left
+		n.Left.Parent = min
+	}
+}
+
 // Transplant replaces one subtree as a child of its parent with another subtree
 func (t *Tree) Transplant(original, replacement *Node) {
 	if original.Parent == nil { // Root of the tree
@@ -115,7 +133,7 @@ func (t *Tree) Transplant(original, replacement *Node) {
 	} else { // Right child
 		original.Parent.Right = replacement
 	}
-	// Don't forget to update the parent node
+	// Update the parent node for the new subtree
 	if replacement != nil {
 		replacement.Parent = original.Parent
 	}

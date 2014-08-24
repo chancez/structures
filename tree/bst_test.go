@@ -1,6 +1,7 @@
 package tree
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -116,5 +117,37 @@ func TestNodePred(t *testing.T) {
 	pred = n.Pred()
 	if pred.Value != 6 {
 		t.Fatalf("Expected Pred=%v, got Pred=%v\n", 6, pred.Value)
+	}
+}
+
+func TestTransplant(t *testing.T) {
+	tr := new(Tree)
+	tr.Insert(&Node{Value: 7})
+	// Create a new tree with a root of 10, left of 5, and right of 15
+	// (has 2 children)
+	subTree1 := new(Tree)
+	subTree1.Insert(&Node{Value: 10})
+	subTree1.Insert(&Node{Value: 15})
+	subTree1.Insert(&Node{Value: 5})
+	// Test replacing the root of a tree
+	tr.Transplant(tr.Root, subTree1.Root)
+	if tr.Root != subTree1.Root {
+		t.Fatalf("Expected tree.Root=%v, got tree.Root=%v", subTree1.Root, tr.Root)
+	}
+	subTree2 := new(Tree)
+	subTree2.Insert(&Node{Value: 4})
+	subTree2.Insert(&Node{Value: 7})
+	tr.Transplant(tr.Root.Left, subTree2.Root)
+	if tr.Root.Left != subTree2.Root {
+		t.Fatalf("Expected tree.Root.Left=%v, got tree.Root.Left=%v", subTree2.Root, tr.Root.Left)
+	}
+	subTree3 := new(Tree)
+	subTree3.Insert(&Node{Value: 20})
+	subTree3.Insert(&Node{Value: 21})
+	// Replace the right child subtree
+	fmt.Printf("%+v\n", tr.Root.Right)
+	tr.Transplant(tr.Root.Right, subTree3.Root)
+	if tr.Root.Right != subTree3.Root {
+		t.Fatalf("Expected tree.Root.Right=%v, got tree.Root.Right=%v", subTree3.Root, tr.Root.Right)
 	}
 }
