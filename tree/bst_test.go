@@ -32,21 +32,21 @@ func TestSearch(t *testing.T) {
 	tr := new(Bst)
 	n := tr.Search(IntValue(100))
 	if n != nil {
-		t.Fatal("Searching an empty tree should return nil")
+		t.Fatalf("Searching an empty tree should return nil, got %v\n", n)
 	}
 	tr.Insert(&BstNode{value: IntValue(5)})
 	tr.Insert(&BstNode{value: IntValue(3)})
 	tr.Insert(&BstNode{value: IntValue(10)})
 	n = tr.Search(IntValue(5))
-	if !Eq(n.value, IntValue(5)) {
-		t.Fatalf("Expected value=%v, got value=%v\n", 5, n.value)
+	if !Eq(n.Value(), IntValue(5)) {
+		t.Fatalf("Expected value=%v, got value=%v\n", IntValue(5), n.Value())
 	}
 	n = tr.Search(IntValue(10))
-	if !Eq(n.value, IntValue(10)) {
-		t.Fatalf("Expected value=%v, got value=%v\n", 10, n.value)
+	if !Eq(n.Value(), IntValue(10)) {
+		t.Fatalf("Expected value=%v, got value=%v\n", IntValue(10), n.Value())
 	}
-	n = tr.Search(IntValue(1000))
-	if n != nil {
+	n = tr.Search(IntValue(1))
+	if n != (*BstNode)(nil) {
 		t.Fatalf("Expected Node=%v, got Node=%v\n", nil, n)
 	}
 }
@@ -63,8 +63,8 @@ func TestMax(t *testing.T) {
 	tr.Insert(&BstNode{value: IntValue(11)})
 	tr.Insert(&BstNode{value: IntValue(3)})
 	n = tr.Max()
-	if !Eq(n.value, IntValue(11)) {
-		t.Fatalf("Expected value=%v, got value=%v\n", 11, n.value)
+	if !Eq(n.Value(), IntValue(11)) {
+		t.Fatalf("Expected value=%v, got value=%v\n", IntValue(11), n.Value())
 	}
 }
 
@@ -80,25 +80,24 @@ func TestMin(t *testing.T) {
 	tr.Insert(&BstNode{value: IntValue(11)})
 	tr.Insert(&BstNode{value: IntValue(3)})
 	n = tr.Min()
-	if !Eq(n.value, IntValue(1)) {
-		t.Fatalf("Expected value=%v, got value=%v\n", 1, n.value)
+	if !Eq(n.Value(), IntValue(1)) {
+		t.Fatalf("Expected value=%v, got value=%v\n", IntValue(1), n.Value())
 	}
 }
 
 func TestNodeSucc(t *testing.T) {
 	tr := new(Bst)
+	tr.Insert(&BstNode{value: IntValue(8)})
 	tr.Insert(&BstNode{value: IntValue(10)})
 	tr.Insert(&BstNode{value: IntValue(5)})
-	n := &BstNode{value: IntValue(8)}
-	tr.Insert(n)
-	succ := n.Succ()
-	if !Eq(succ.value, IntValue(10)) {
-		t.Fatalf("Expected Succ=%v, got Succ=%v\n", 10, succ.value)
+	succ := NodeSucc(tr.Root())
+	if !Eq(succ.Value(), IntValue(10)) {
+		t.Fatalf("Expected Succ=%v, got Succ=%v\n", IntValue(10), succ.Value())
 	}
 	tr.Insert(&BstNode{value: IntValue(9)})
-	succ = n.Succ()
-	if !Eq(succ.value, IntValue(9)) {
-		t.Fatalf("Expected Succ=%v, got Succ=%v\n", 9, succ.value)
+	succ = NodeSucc(tr.Root())
+	if !Eq(succ.Value(), IntValue(9)) {
+		t.Fatalf("Expected Succ=%v, got Succ=%v\n", IntValue(9), succ.Value())
 	}
 }
 
@@ -106,16 +105,14 @@ func TestNodePred(t *testing.T) {
 	tr := new(Bst)
 	tr.Insert(&BstNode{value: IntValue(10)})
 	tr.Insert(&BstNode{value: IntValue(5)})
-	n := &BstNode{value: IntValue(7)}
-	tr.Insert(n)
-	pred := n.Pred()
-	if !Eq(pred.value, IntValue(5)) {
-		t.Fatalf("Expected Pred=%v, got Pred=%v\n", 5, pred.value)
+	pred := NodePred(tr.Root())
+	if !Eq(pred.Value(), IntValue(5)) {
+		t.Fatalf("Expected Pred=%v, got Pred=%v\n", IntValue(5), pred.Value())
 	}
 	tr.Insert(&BstNode{value: IntValue(6)})
-	pred = n.Pred()
-	if !Eq(pred.value, IntValue(6)) {
-		t.Fatalf("Expected Pred=%v, got Pred=%v\n", 6, pred.value)
+	pred = NodePred(tr.Root())
+	if !Eq(pred.Value(), IntValue(6)) {
+		t.Fatalf("Expected Pred=%v, got Pred=%v\n", IntValue(6), pred.Value())
 	}
 }
 

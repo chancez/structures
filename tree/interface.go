@@ -41,7 +41,14 @@ func Eq(i, j Orderable) bool {
 	return i.Eq(j)
 }
 
+type NodeBase interface {
+	Search(Orderable) Node
+	Min() Node
+	Max() Node
+}
+
 type Node interface {
+	NodeBase
 	Left() Node
 	Right() Node
 	Parent() Node
@@ -49,34 +56,9 @@ type Node interface {
 }
 
 type Tree interface {
+	NodeBase // A tree is simply a node with a root
 	Root() Node
-	Search(Orderable) Node
-	Min() Node
-	Max() Node
+	// These are implementation specific
 	Insert(Orderable)
 	Delete(Orderable)
-}
-
-func Root(tr Tree) Node {
-	return tr.Root()
-}
-
-func Search(tr Tree, v Orderable) Node {
-	return tr.Search(v)
-}
-
-func Min(tr Tree) Node {
-	return tr.Min()
-}
-
-func Max(tr Tree) Node {
-	return tr.Max()
-}
-
-func Insert(tr Tree, v Orderable) {
-	tr.Insert(v)
-}
-
-func Delete(tr Tree, v Orderable) {
-	tr.Delete(v)
 }

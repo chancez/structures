@@ -4,17 +4,13 @@ import (
 	"fmt"
 )
 
-type Bst struct {
-	root *BstNode
-}
-
 type BstNode struct {
 	value               Orderable
 	left, right, parent *BstNode
 }
 
-func (t *Bst) Root() Node {
-	return t.root
+type Bst struct {
+	root *BstNode
 }
 
 func (n *BstNode) Value() Orderable {
@@ -42,17 +38,21 @@ func InOrderWalk(n *BstNode) {
 	InOrderWalk(n.right)
 }
 
-func (n *BstNode) Search(v Orderable) *BstNode {
+func (n *BstNode) search(v Orderable) *BstNode {
 	if Eq(v, n.value) {
 		return n
 	}
 	if n.left != nil && Lt(v, n.value) {
-		return n.left.Search(v)
+		return n.left.search(v)
 	}
 	if n.right != nil {
-		return n.right.Search(v)
+		return n.right.search(v)
 	}
 	return nil
+}
+
+func (n *BstNode) Search(v Orderable) Node {
+	return n.search(v)
 }
 
 func (n *BstNode) SearchIter(v Orderable) *BstNode {
@@ -67,43 +67,56 @@ func (n *BstNode) SearchIter(v Orderable) *BstNode {
 	return curr
 }
 
-func (n *BstNode) Min() *BstNode {
+func (n *BstNode) min() *BstNode {
 	for n.left != nil {
 		n = n.left
 	}
 	return n
 }
 
-func (n *BstNode) Max() *BstNode {
+func (n *BstNode) Min() Node {
+	return n.min()
+}
+
+func (n *BstNode) max() *BstNode {
 	for n.right != nil {
 		n = n.right
 	}
 	return n
 }
 
-func (n *BstNode) Succ() *BstNode {
-	if n.right != nil {
-		return n.right.Min()
-	}
-	succ := n.parent
-	for succ != nil && n == succ.right {
-		n = succ
-		succ = succ.parent
-	}
-	return succ
+func (n *BstNode) Max() Node {
+	return n.max()
 }
 
-func (n *BstNode) Pred() *BstNode {
-	if n.left != nil {
-		return n.left.Max()
-	}
-	pred := n.parent
-	for pred != nil && n == pred.left {
-		n = pred
-		pred = pred.parent
-	}
-	return pred
+// Tree Methods
+
+func (t *Bst) Root() Node {
+	return t.root
 }
+
+func (t *Bst) Search(v Orderable) Node {
+	if t.root != nil {
+		return t.root.Search(v)
+	}
+	return nil
+}
+
+func (t *Bst) Min() Node {
+	if t.root != nil {
+		return t.root.Min()
+	}
+	return nil
+}
+
+func (t *Bst) Max() Node {
+	if t.root != nil {
+		return t.root.Max()
+	}
+	return nil
+}
+
+// The following are implementation specific
 
 func (t *Bst) Insert(v *BstNode) {
 	var tmp *BstNode
@@ -132,7 +145,7 @@ func (t *Bst) Delete(n *BstNode) {
 	} else if n.right == nil {
 		t.Transplant(n, n.left)
 	} else {
-		min := n.right.Min()
+		min := n.right.min()
 		if min.parent != n {
 			t.Transplant(min, min.right)
 			min.right = n.right
@@ -157,25 +170,4 @@ func (t *Bst) Transplant(original, replacement *BstNode) {
 	if replacement != nil {
 		replacement.parent = original.parent
 	}
-}
-
-func (t *Bst) Search(v Orderable) *BstNode {
-	if t.root != nil {
-		return t.root.Search(v)
-	}
-	return nil
-}
-
-func (t *Bst) Min() *BstNode {
-	if t.root != nil {
-		return t.root.Min()
-	}
-	return nil
-}
-
-func (t *Bst) Max() *BstNode {
-	if t.root != nil {
-		return t.root.Max()
-	}
-	return nil
 }
