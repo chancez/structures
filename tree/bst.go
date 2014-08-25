@@ -4,36 +4,36 @@ import (
 	"fmt"
 )
 
-type Tree struct {
-	root *Node
+type Bst struct {
+	root *BstNode
 }
 
-type Node struct {
+type BstNode struct {
 	value               Orderable
-	left, right, parent *Node
+	left, right, parent *BstNode
 }
 
-func (t *Tree) Root() BstNode {
+func (t *Bst) Root() Node {
 	return t.root
 }
 
-func (n *Node) Value() Orderable {
+func (n *BstNode) Value() Orderable {
 	return n.value
 }
 
-func (n *Node) Left() BstNode {
+func (n *BstNode) Left() Node {
 	return n.left
 }
 
-func (n *Node) Right() BstNode {
+func (n *BstNode) Right() Node {
 	return n.right
 }
 
-func (n *Node) Parent() BstNode {
+func (n *BstNode) Parent() Node {
 	return n.parent
 }
 
-func InOrderWalk(n *Node) {
+func InOrderWalk(n *BstNode) {
 	if n == nil {
 		return
 	}
@@ -42,7 +42,7 @@ func InOrderWalk(n *Node) {
 	InOrderWalk(n.right)
 }
 
-func (n *Node) Search(v Orderable) *Node {
+func (n *BstNode) Search(v Orderable) *BstNode {
 	if Eq(v, n.value) {
 		return n
 	}
@@ -55,7 +55,7 @@ func (n *Node) Search(v Orderable) *Node {
 	return nil
 }
 
-func (n *Node) SearchIter(v Orderable) *Node {
+func (n *BstNode) SearchIter(v Orderable) *BstNode {
 	curr := n
 	for curr != nil && !Eq(v, curr.value) {
 		if Lt(v, curr.value) {
@@ -67,21 +67,21 @@ func (n *Node) SearchIter(v Orderable) *Node {
 	return curr
 }
 
-func (n *Node) Min() *Node {
+func (n *BstNode) Min() *BstNode {
 	for n.left != nil {
 		n = n.left
 	}
 	return n
 }
 
-func (n *Node) Max() *Node {
+func (n *BstNode) Max() *BstNode {
 	for n.right != nil {
 		n = n.right
 	}
 	return n
 }
 
-func (n *Node) Succ() *Node {
+func (n *BstNode) Succ() *BstNode {
 	if n.right != nil {
 		return n.right.Min()
 	}
@@ -93,7 +93,7 @@ func (n *Node) Succ() *Node {
 	return succ
 }
 
-func (n *Node) Pred() *Node {
+func (n *BstNode) Pred() *BstNode {
 	if n.left != nil {
 		return n.left.Max()
 	}
@@ -105,8 +105,8 @@ func (n *Node) Pred() *Node {
 	return pred
 }
 
-func (t *Tree) Insert(v *Node) {
-	var tmp *Node
+func (t *Bst) Insert(v *BstNode) {
+	var tmp *BstNode
 	curr := t.root
 	for curr != nil {
 		tmp = curr
@@ -126,7 +126,7 @@ func (t *Tree) Insert(v *Node) {
 	}
 }
 
-func (t *Tree) Delete(n *Node) {
+func (t *Bst) Delete(n *BstNode) {
 	if n.left == nil {
 		t.Transplant(n, n.right)
 	} else if n.right == nil {
@@ -145,7 +145,7 @@ func (t *Tree) Delete(n *Node) {
 }
 
 // Transplant replaces one subtree as a child of its parent with another subtree
-func (t *Tree) Transplant(original, replacement *Node) {
+func (t *Bst) Transplant(original, replacement *BstNode) {
 	if original.parent == nil { // Root of the tree
 		t.root = replacement
 	} else if original == original.parent.left { // Left child
@@ -159,21 +159,21 @@ func (t *Tree) Transplant(original, replacement *Node) {
 	}
 }
 
-func (t *Tree) Search(v Orderable) *Node {
+func (t *Bst) Search(v Orderable) *BstNode {
 	if t.root != nil {
 		return t.root.Search(v)
 	}
 	return nil
 }
 
-func (t *Tree) Min() *Node {
+func (t *Bst) Min() *BstNode {
 	if t.root != nil {
 		return t.root.Min()
 	}
 	return nil
 }
 
-func (t *Tree) Max() *Node {
+func (t *Bst) Max() *BstNode {
 	if t.root != nil {
 		return t.root.Max()
 	}

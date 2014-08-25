@@ -41,13 +41,13 @@ func Eq(i, j Orderable) bool {
 	return i.Eq(j)
 }
 
-type BstNode interface {
-	Left() BstNode
-	Right() BstNode
-	Parent() BstNode
+type Node interface {
+	Left() Node
+	Right() Node
+	Parent() Node
 	Value() Orderable
 }
 
-type Bst interface {
-	Root() BstNode
+type Tree interface {
+	Root() Node
 }
